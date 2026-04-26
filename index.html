@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cartinhas da Evellyn 💖</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+
+<style>
+* { font-family: 'Quicksand', sans-serif; }
+
+body {
+    background: linear-gradient(180deg, #fff5fb, #ffd6ec);
+    overflow-x: hidden;
+}
+
+/* FUNDO */
+.bg-effects {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.floating {
+    position: absolute;
+    animation: floatUp 7s infinite ease-in-out;
+}
+
+@keyframes floatUp {
+    0% { transform: translateY(100vh) scale(0); opacity: 0; }
+    25% { opacity: 1; }
+    100% { transform: translateY(-120px) scale(1); opacity: 0; }
+}
+
+/* FOTO */
+.foto-container {
+    position: relative;
+    width: 320px;
+    height: 440px;
+    margin: 0 auto 30px;
+}
+
+.foto-moldura {
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    border: 8px solid #ff9ec5;
+    overflow: hidden;
+    background: white;
+    box-shadow: 0 10px 30px rgba(255,105,180,0.4);
+}
+
+.foto-moldura img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.laço-foto {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    font-size: 40px;
+}
+
+/* CARTAS */
+.carta { perspective: 2000px; cursor: pointer; }
+
+.inner {
+    transition: transform 1.2s;
+    transform-style: preserve-3d;
+}
+
+.carta.aberta .inner {
+    transform: rotateY(180deg);
+}
+
+.face {
+    backface-visibility: hidden;
+    border-radius: 30px;
+    border: 4px solid #ffb3d9;
+    box-shadow: 0 10px 30px rgba(255,105,180,0.3);
+}
+
+.front {
+    background: #fff;
+    font-size: 80px;
+}
+
+.back {
+    background: #fff0f6;
+    transform: rotateY(180deg);
+    font-size: 16px;
+    line-height: 1.7;
+}
+
+/* EXPLOSÃO */
+.explosao {
+    position: absolute;
+    font-size: 30px;
+    animation: fly 2s forwards;
+}
+
+@keyframes fly {
+    0% { transform: scale(0.2); opacity: 1; }
+    100% { transform: translate(var(--x), var(--y)) scale(1.4); opacity: 0; }
+}
+</style>
+</head>
+
+<body class="text-pink-700">
+
+<!-- LOGIN -->
+<div id="login" class="text-center mt-24">
+    <h1 class="text-4xl mb-4">Cartinhas 💖</h1>
+    <input id="senha" type="password" placeholder="Senha"
+    class="px-6 py-3 rounded-full border-2 border-pink-300 text-center">
+    <br><br>
+    <button onclick="entrar()" class="px-6 py-3 bg-pink-400 text-white rounded-full">
+        Entrar ✨
+    </button>
+</div>
+
+<!-- CARTAS -->
+<div id="cartas" class="hidden text-center mt-10">
+
+    <h2 class="text-2xl mb-6">Escolha uma carta 🐱💌</h2>
+
+    <!-- FOTO RESTAURADA -->
+    <div class="foto-container">
+        <div class="foto-moldura">
+            <img src="minhafoto1.png" id="foto">
+        </div>
+        <div class="laço-foto">🎀</div>
+    </div>
+
+    <div class="flex flex-col items-center gap-6">
+
+        <script>
+        for(let i=1;i<=15;i++){
+            document.write(`
+            <div class="carta w-11/12 max-w-md h-48" onclick="abrirCarta(this,${i})">
+                <div class="inner w-full h-full relative">
+                    <div class="face front absolute w-full h-full flex items-center justify-center">
+                        💌
+                    </div>
+                    <div class="face back absolute w-full h-full flex items-center justify-center p-6 text-center"></div>
+                </div>
+            </div>
+            `);
+        }
+        </script>
+
+    </div>
+
+    <!-- FINAL -->
+    <div id="final" class="hidden mt-10 px-6">
+        <h2 class="text-3xl font-bold text-pink-600">🎉 Feliz aniversário 💖</h2>
+        <p class="mt-4">
+            No meio de tudo, você foi alguém que fez diferença de verdade.
+        </p>
+    </div>
+
+</div>
+
+<script>
+const senhaCorreta = "Evellyn1234";
+let abertas = new Set();
+
+function entrar(){
+    if(document.getElementById("senha").value === senhaCorreta){
+        login.style.display="none";
+        cartas.style.display="block";
+    } else {
+        alert("Senha errada 😿");
+    }
+}
+
+function abrirCarta(el, num){
+
+    if(el.classList.contains("aberta")) return;
+
+    el.classList.add("aberta");
+    abertas.add(num);
+
+    const poemas = {
+1:`Hoje não é só mais um dia
+É mais uma fase começando
+E mesmo parecendo algo simples
+Ainda assim é importante de verdade`,
+
+2:`A gente já passou por várias situações
+Algumas boas, outras meio estranhas
+Mas no fim, nenhuma delas apagou
+O que realmente ficou entre a gente`,
+
+3:`Nem toda amizade precisa ser perfeita
+Nem precisa estar presente o tempo todo
+Às vezes só precisa ter existido de verdade
+E isso já faz diferença`,
+
+4:`Você já me ajudou em momentos complicados
+Coisas que não eram tão simples assim
+E mesmo que pareça pouco pra você
+Pra mim teve valor de verdade`,
+
+5:`Nem tudo precisa ser falado sempre
+Nem precisa ter explicação pra tudo
+Tem coisas que a gente só entende depois
+Quando percebe o que ficou`,
+
+6:`Tem pessoas que passam rápido
+E outras que ficam de algum jeito
+Mesmo sem fazer algo gigante
+Só por terem feito parte`,
+
+7:`No meio de tanta coisa que acontece
+Alguns momentos acabam marcando mais
+Não porque foram perfeitos
+Mas porque foram reais`,
+
+8:`Às vezes é em detalhes simples
+Em conversas aleatórias ou situações nada a ver
+Que a gente percebe quem teve importância
+Mesmo sem perceber na hora`,
+
+9:`Não precisa ser a amizade mais próxima
+Nem a mais intensa o tempo todo
+Mas quando foi de verdade
+Isso já é o suficiente`,
+
+10:`Tem coisas que ficam com o tempo
+Mesmo que a gente não perceba na hora
+Mas depois elas aparecem de novo
+E fazem sentido de um jeito diferente`,
+
+11:`Você fez parte de momentos específicos
+E isso já muda bastante coisa
+Porque nem todo mundo consegue
+Deixar algum tipo de marca`,
+
+12:`Nem tudo precisa continuar igual
+Nem tudo segue o mesmo caminho
+Mas isso não apaga o que já aconteceu
+E o que teve importância`,
+
+13:`Algumas pessoas entram na vida da gente
+E acabam ficando de algum jeito
+Mesmo que não seja algo constante
+Ainda assim foi real`,
+
+14:`No fim das contas
+O que mais importa são as pessoas
+Que estiveram presentes de verdade
+Em algum momento da caminhada`,
+
+15:`Então hoje é mais sobre isso
+Sobre reconhecer o que já aconteceu
+E valorizar o que teve sentido
+Do jeito que foi`
+    };
+
+    el.querySelector(".back").innerText = poemas[num];
+    festa(el);
+
+    if(abertas.size === 15){
+        setTimeout(()=>{
+            document.getElementById("final").classList.remove("hidden");
+        }, 800);
+    }
+}
+
+function festa(carta){
+    const emojis = ["🐱","😻","💗","✨"];
+    let rect = carta.getBoundingClientRect();
+
+    for(let i=0;i<20;i++){
+        let e = document.createElement("div");
+        e.className="explosao";
+        e.innerText = emojis[Math.floor(Math.random()*emojis.length)];
+
+        e.style.setProperty("--x",(Math.random()-0.5)*300+"px");
+        e.style.setProperty("--y",(Math.random()-0.5)*300+"px");
+
+        e.style.left = rect.left + rect.width/2 + "px";
+        e.style.top = rect.top + rect.height/2 + "px";
+
+        document.body.appendChild(e);
+        setTimeout(()=>e.remove(),2000);
+    }
+}
+</script>
+
+</body>
+</html>
